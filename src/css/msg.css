@@ -96,6 +96,7 @@
 }
 .bot-img, .user-img {
     height: 35px;
+    margin-bottom: 20px;
 }
 .bot-img{
     margin-right: 10px;
