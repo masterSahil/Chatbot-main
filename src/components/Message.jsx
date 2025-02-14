@@ -1,67 +1,53 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../css/msg.css";
 import axios from "axios";
-import botImg from "../assets/bot.png"
-import userImg from "../assets/user2.png"
+import botImg from "../assets/bot.png";
+import userImg from "../assets/user2.png";
 
 const Message = ({ color }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
+  const messagesEndRef = useRef(null);
 
   // Define styles based on the selected theme
   const themeStyles = {
-    green: {
-      boxShadow: "0 0 15px 1px rgba(78, 240, 55, .7)",
-      theme: "#4ef037",
-    },
-    blue: {
-      boxShadow: "0 0 15px rgba(54, 209, 196, .7)",
-      theme: "#36d1c4",
-    },
-    purple: {
-      boxShadow: "0 0 15px rgba(128, 0, 128, .7)",
-      theme: "purple",
-    },
-    pink: {
-      boxShadow: "0 0 15px rgba(255, 52, 127, .7)",
-      theme: "#ff347f",
-    },
-    default: {
-      boxShadow: "0 0 15px rgba(79, 70, 229, .7)",
-      theme: "#4F46E5",
-    },
+    green: { boxShadow: "0 0 15px 1px rgba(78, 240, 55, .7)", theme: "#4ef037" },
+    blue: { boxShadow: "0 0 15px rgba(54, 209, 196, .7)", theme: "#36d1c4" },
+    purple: { boxShadow: "0 0 15px rgba(128, 0, 128, .7)", theme: "purple" },
+    pink: { boxShadow: "0 0 15px rgba(255, 52, 127, .7)", theme: "#ff347f" },
+    default: { boxShadow: "0 0 15px rgba(79, 70, 229, .7)", theme: "#4F46E5" },
   };
 
   async function getAnswer() {
-    if (input === "" || input === null) return;
+    if (!input.trim()) return;
 
     setInput("");
     setTyping(true);
 
-    const newMessages = [...messages, { text: input, sender: "user" }];
+    const currentTime = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+    const newMessages = [...messages, { text: input, sender: "user", time: currentTime }];
     setMessages(newMessages);
 
     try {
       const response = await axios({
-        url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyBTi4oWLKMGBZHPEc_31pLF2KiXbR5-6Fo",
+        url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=YOUR_API_KEY",
         method: "post",
         data: { contents: [{ parts: [{ text: input }] }] },
       });
 
-      const botReply = response?.data?.candidates?.[0]?.content?.parts[0]?.text ||
-        "404! Data not Existed";
-      setMessages([...newMessages, { text: botReply, sender: "bot" }]);
+      const botReply = response?.data?.candidates?.[0]?.content?.parts?.[0]?.text || "404! Data not Found";
+      setMessages([...newMessages, { text: botReply, sender: "bot", time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }]);
     } catch (error) {
-      setMessages([ ...newMessages, { text: "Error! Internet is not Connected", sender: "bot" }, ]);
+      setMessages([...newMessages, { text: "Error! Internet is not connected", sender: "bot", time: currentTime }]);
     } finally {
       setTyping(false);
     }
   }
 
   function submitMessage(e) {
-    if(typing) return;
-
+    if (typing) return;
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       getAnswer();
@@ -69,70 +55,80 @@ const Message = ({ color }) => {
   }
 
   useEffect(() => {
-    // Apply the theme color to the scrollbar dynamically
-    const scrollbarColor = themeStyles[color]?.theme || "#4F46E5";
-    document.documentElement.style.setProperty("--scrollbar-thumb-color", scrollbarColor);
+    document.documentElement.style.setProperty("--theme-color", themeStyles[color]?.theme || "#4F46E5");
+    document.documentElement.style.setProperty("--scrollbar-thumb-color", themeStyles[color]?.theme || "#4F46E5");
   }, [color]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   return (
     <>
-
-
       <div className="message-container">
-      {messages.map((msg, index) => (
-      <div 
-        key={index} 
-        className={`msg-content ${msg.sender === "user" ? "user-msg-container" : "bot-msg-container"}`} >
-        {msg.sender === "bot" ? <img src={botImg} alt="bot-img" className="bot-img" /> : 
-        <img src={userImg} alt="user-img" className="user-img" /> }
-        <div className={msg.sender === "user" ? "user-msg msg-box" : "bot-msg msg-box"}
-          style={{
-            boxShadow: themeStyles[color]?.boxShadow,
-            borderColor: themeStyles[color]?.theme,
-          }} >
-          {msg.text}
-        </div>
-      </div>
-    ))}
+        {messages.map((msg, index) => (
+          <div key={index} className={`msg-content ${msg.sender === "user" ? "user-msg-container" : "bot-msg-container"}`}>
+            {msg.sender === "bot" ? (
+              <img src={botImg} alt="bot-img" className="bot-img" />
+            ) : (
+              <img src={userImg} alt="user-img" className="user-img" />
+            )}
+
+            {/* Message box and timestamp container */}
+            <div className="msg-box-container">
+              <div className={msg.sender === "user" ? "user-msg msg-box" : "bot-msg msg-box"}
+                style={{
+                  boxShadow: themeStyles[color]?.boxShadow,
+                  borderColor: themeStyles[color]?.theme,
+                }}>
+                {msg.text}
+              </div>
+              <div className={`message-time ${msg.sender === "user" ? "user-time" : "bot-time"}`}>
+                {msg.time}
+              </div>
+            </div>
+          </div>
+        ))}
 
         {typing && (
-          <div className="msg-content">
-            <div className="bot-msg msg-box" style={{ 
-              boxShadow: themeStyles[color]?.boxShadow,
-              borderColor: themeStyles[color]?.theme,
-            }}>Typing ...</div>
+          <div className="msg-content bot-msg-container">
+            <img src={botImg} alt="bot-img" className="bot-img" />
+            <div className="bot-msg msg-box"
+              style={{
+                boxShadow: themeStyles[color]?.boxShadow,
+                borderColor: themeStyles[color]?.theme,
+              }}>
+              Typing...
+            </div>
           </div>
         )}
+        <div ref={messagesEndRef} />
       </div>
 
-      <div className="input-sec" 
-      style={{
-            borderTopColor: themeStyles[color]?.theme,
-      }}>
+      <div className="input-sec"
+        style={{ borderTopColor: themeStyles[color]?.theme }}>
         <textarea
           className="textarea"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={submitMessage}
-          placeholder="Type something ..."
+          placeholder="Type something..."
           style={{
             borderColor: themeStyles[color]?.theme,
             outlineColor: themeStyles[color]?.theme,
             caretColor: themeStyles[color]?.theme,
           }}
         ></textarea>
-        <button 
-        disabled={typing}
-        className="btn" 
-        onClick={getAnswer}
-        style={{ 
+        <button disabled={typing} className="btn" onClick={getAnswer}
+          style={{
             background: themeStyles[color]?.theme,
             cursor: typing ? "not-allowed" : "pointer",
             opacity: typing ? ".5" : "1",
-        }} >
+          }}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
             strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="svg lucide lucide-send w-5 h-5">
-            <path d="m22 2-7 20-4-9-9-4Z"></path> <path d="M22 2 11 13"></path>
+            <path d="m22 2-7 20-4-9-9-4Z"></path>
+            <path d="M22 2 11 13"></path>
           </svg>
         </button>
       </div>

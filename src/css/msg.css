@@ -103,7 +103,55 @@
 .user-img{
     margin-left: 10px;
 }
+.message-time {
+    font-size: 12px;
+    color: gray;
+    margin-top: 3px;
+  }
+  
+  .user-time {
+    text-align: right;
+    margin-right: 40px; /* Adjust based on layout */
+  }
+  
+  .bot-time {
+    text-align: left;
+    margin-left: 40px; /* Adjust based on layout */
+  }
 
+  /* Ensure messages are in a column layout */
+.msg-box-container {
+    display: flex;
+    flex-direction: column; /* Stack message and time */
+    align-items: flex-start; /* Default for bot */
+  }
+  
+  /* User messages should align to the right */
+  .user-msg-container .msg-box-container {
+    align-items: flex-end;
+  }
+  
+  /* Time should be in a new line */
+  .message-time {
+    font-size: 12px;
+    color: gray;
+    margin-top: 3px;
+    display: block; /* Ensures it moves to the next line */
+  }
+  
+  /* Left-align for bot messages */
+  .bot-time {
+    text-align: left;
+    margin-left: 5px;
+  }
+  
+  /* Right-align for user messages */
+  .user-time {
+    text-align: right;
+    margin-right: 5px;
+  }
+  
+  
 
 @media screen and (max-width: 1500px) {
     .textarea{
@@ -267,4 +315,3 @@
         height: 30px;
     }
 }
-

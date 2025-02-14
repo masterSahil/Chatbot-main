@@ -11,9 +11,11 @@
 .bx-menu-alt-right{
     font-size: 50px;
     cursor: pointer;
+    margin-right: -1.5vw;
 }
 .svg2{
     height: 60px;
+    margin-left: -1vw;
     margin-right: 10px;
     color: white;
 }
