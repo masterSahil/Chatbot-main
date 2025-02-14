@@ -32,7 +32,7 @@ const Message = ({ color }) => {
 
     try {
       const response = await axios({
-        url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=YOUR_API_KEY",
+        url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCujTe9X_7XVlnWKYy3eH3htrB0kftjfdk",
         method: "post",
         data: { contents: [{ parts: [{ text: input }] }] },
       });
