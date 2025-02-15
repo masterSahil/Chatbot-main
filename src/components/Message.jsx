@@ -77,7 +77,12 @@ const Message = ({ color }) => {
       const response = await axios({
         url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
         method: "post",
-        data: { contents: [{ parts: [{ text: input }] }] },
+        data: { 
+          contents: newMessages.map((msg) => ({
+            role: msg.sender === "user" ? "user" : "assistant",
+            parts: [{ text: msg.text }],
+          }))
+        },
       });
 
       const botReply = response?.data?.candidates?.[0]?.content?.parts?.[0]?.text || "404! Data not Found";
