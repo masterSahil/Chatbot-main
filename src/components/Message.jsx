@@ -211,7 +211,9 @@ const Message = ({ color }) => {
   const [typing, setTyping] = useState(false);
   const [botImg, setBotImg] = useState(botDefault);
   const [userImg, setUserImg] = useState(userDefault);
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([
+    { text: "How can I assist you today?", sender: "bot", time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) },
+  ]);
 
   // Theme-based styles
   const themeStyles = {
@@ -295,21 +297,15 @@ const Message = ({ color }) => {
 
     setBotImg(theme.botImg);
     setUserImg(theme.userImg);
-
-    // Set default bot message when the theme changes
-    setMessages([
-      {
-        text: "How can I assist you today?",
-        sender: "bot",
-        time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-      },
-    ]);
+    
   }, [color]);
 
   // Auto-scroll to the latest message
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  
 
   return (
     <>
