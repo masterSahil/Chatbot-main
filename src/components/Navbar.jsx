@@ -36,6 +36,10 @@ const Navbar = ({color}) => {
     navbarRef.current.style.background = "#4F46E5";
     dropdownRef.current.style.borderColor = "#4F46E5";
     dropdownRef.current.style.boxShadow = "0 0 10px 5px rgba(79, 70, 229, .3)";
+  } else if (color === "black") {
+    navbarRef.current.style.background = "#000";
+    dropdownRef.current.style.borderColor = "#000";
+    dropdownRef.current.style.boxShadow = "0 0 10px 5px rgba(0, 0, 0, 0.3)";
   }
 
 

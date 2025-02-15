@@ -18,7 +18,7 @@
     }
 }
 .message-container::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb-color, #4F46E5); /* Default color */
+    background: var(--scrollbar-thumb-color, #4F46E5); 
     border-radius: 5px; 
     cursor: pointer;
     &:hover{
@@ -97,6 +97,7 @@
 .bot-img, .user-img {
     height: 35px;
     margin-bottom: 20px;
+    object-fit: cover;
 }
 .bot-img{
     margin-right: 10px;
@@ -108,50 +109,37 @@
     font-size: 12px;
     color: gray;
     margin-top: 3px;
-  }
-  
-  .user-time {
+}
+.user-time {
     text-align: right;
-    margin-right: 40px; /* Adjust based on layout */
-  }
-  
-  .bot-time {
+    margin-right: 40px; 
+}
+.bot-time {
     text-align: left;
-    margin-left: 40px; /* Adjust based on layout */
-  }
-
-  /* Ensure messages are in a column layout */
+    margin-left: 40px; 
+}
 .msg-box-container {
     display: flex;
-    flex-direction: column; /* Stack message and time */
-    align-items: flex-start; /* Default for bot */
-  }
-  
-  /* User messages should align to the right */
-  .user-msg-container .msg-box-container {
+    flex-direction: column; 
+    align-items: flex-start; 
+}
+.user-msg-container .msg-box-container {
     align-items: flex-end;
-  }
-  
-  /* Time should be in a new line */
-  .message-time {
+}
+.message-time {
     font-size: 12px;
     color: gray;
     margin-top: 3px;
-    display: block; /* Ensures it moves to the next line */
-  }
-  
-  /* Left-align for bot messages */
-  .bot-time {
+    display: block; 
+}
+.bot-time {
     text-align: left;
     margin-left: 5px;
-  }
-  
-  /* Right-align for user messages */
-  .user-time {
+}
+.user-time {
     text-align: right;
     margin-right: 5px;
-  }
-  
+}
   
 
 @media screen and (max-width: 1500px) {
