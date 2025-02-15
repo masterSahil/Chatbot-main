@@ -300,7 +300,7 @@
     .dropdown{
         width: 22vw !important;
     }
-    .msg-box{
+    .msg-box, .typing-text{
         font-size: 16px;
     }
 }
