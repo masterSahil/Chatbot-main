@@ -105,19 +105,6 @@
 .user-img{
     margin-left: 10px;
 }
-.message-time {
-    font-size: 12px;
-    color: gray;
-    margin-top: 3px;
-}
-.user-time {
-    text-align: right;
-    margin-right: 40px; 
-}
-.bot-time {
-    text-align: left;
-    margin-left: 40px; 
-}
 .msg-box-container {
     display: flex;
     flex-direction: column; 
@@ -160,7 +147,7 @@
   
   .typing-text {
     font-family: Arial, sans-serif;
-    font-size: 24px;
+    font-size: 18px;
     color: #333;
     display: inline-block;
     position: relative;
