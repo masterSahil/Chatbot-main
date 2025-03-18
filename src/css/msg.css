@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 .message-container{
-    height: 35vw;
+    height: 37vw;
     width: 100%;
     overflow-y: scroll;
     display: flex;
@@ -50,13 +50,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2vw 0;
+    padding: 1vw 0;
     background: white;
     border-top: 3px solid #4F46E5;
 }
 .textarea{
     width: 80%;
-    height: 5vw;
+    height: 4vw;
     resize: none;
     margin: 0 1vw;
     border-radius: 6px;
@@ -70,7 +70,7 @@
     background: #4F46E5;
     color: white;
     border: none;
-    padding: 25px;
+    padding: 20px;
     display: flex;
     font-size: 34px;
     border-radius: 12px;

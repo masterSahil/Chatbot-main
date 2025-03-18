@@ -26,11 +26,31 @@ const Message = ({ color }) => {
 
   // Theme-based styles
   const themeStyles = {
-    green: { boxShadow: "0 0 15px rgba(78, 240, 55, .7)", theme: "#4ef037", botImg: botGreen, userImg: userGreen },
-    blue: { boxShadow: "0 0 15px rgba(54, 209, 196, .7)", theme: "#36d1c4", botImg: botBlue, userImg: userBlue },
-    purple: { boxShadow: "0 0 15px rgba(128, 0, 128, .7)", theme: "purple", botImg: botPurple, userImg: userPurple },
-    pink: { boxShadow: "0 0 15px rgba(255, 52, 127, .7)", theme: "#ff347f", botImg: botPink, userImg: userPink },
-    default: { boxShadow: "0 0 15px rgba(79, 70, 229, .7)", theme: "#4F46E5", botImg: botDefault, userImg: userDefault },
+    green: { 
+      boxShadow: "0 0 15px rgba(78, 240, 55, .7)", 
+      theme: "#4ef037", 
+      botImg: botGreen, userImg: userGreen 
+    },
+    blue: { 
+      boxShadow: "0 0 15px rgba(54, 209, 196, .7)", 
+      theme: "#36d1c4", 
+      botImg: botBlue, userImg: userBlue 
+    },
+    purple: { 
+      boxShadow: "0 0 15px rgba(128, 0, 128, .7)", 
+      theme: "purple", 
+      botImg: botPurple, userImg: userPurple 
+    },
+    pink: { 
+      boxShadow: "0 0 15px rgba(255, 52, 127, .7)", 
+      theme: "#ff347f", 
+      botImg: botPink, userImg: userPink 
+    },
+    default: { 
+      boxShadow: "0 0 15px rgba(79, 70, 229, .7)", 
+      theme: "#4F46E5", 
+      botImg: botDefault, userImg: userDefault 
+    },
   };
 
   // Function to get bot response
@@ -137,12 +157,21 @@ const Message = ({ color }) => {
       </div>
 
       <div className="input-sec" style={{ borderTopColor: themeStyles[color]?.theme }}>
-        <textarea className="textarea" value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={submitMessage} placeholder="Type something..." style={{ borderColor: themeStyles[color]?.theme, outlineColor: themeStyles[color]?.theme, caretColor: themeStyles[color]?.theme }}></textarea>
-        <button disabled={typing} className="btn" onClick={getAnswer} style={{ background: themeStyles[color]?.theme, cursor: typing ? "not-allowed" : "pointer", opacity: typing ? ".5" : "1" }}>
+        <textarea className="textarea" value={input} onChange={(e) => setInput(e.target.value)} 
+          onKeyDown={submitMessage} placeholder="Type something..." 
+          style={{ borderColor: themeStyles[color]?.theme, 
+          outlineColor: themeStyles[color]?.theme, 
+          caretColor: themeStyles[color]?.theme }}></textarea>
+
+        <button disabled={typing} className="btn" onClick={getAnswer} 
+          style={{ background: themeStyles[color]?.theme, 
+          cursor: typing ? "not-allowed" : "pointer", opacity: typing ? ".5" : "1" }}>
+
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="svg lucide lucide-send w-5 h-5">
             <path d="m22 2-7 20-4-9-9-4Z"></path>
             <path d="M22 2 11 13"></path>
           </svg>
+          
         </button>
       </div>
     </>
