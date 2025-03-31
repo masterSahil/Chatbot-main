@@ -68,10 +68,12 @@ const Message = ({ color }) => {
     // **Custom Responses**
     const customResponses = {
       "who made you": "I am a large language model, trained by Sahil Master.",
+      "who made you?": "I am a large language model, trained by Sahil Master.",
       "who created you": "I am a large language model, trained by Sahil Master.",
       "when were you created": "I was set up by Sahil Master on 16 Feb.",
       "when did you start": "I was set up by Sahil Master on 16 Feb.",
       "are you google's ai": "Nope! I am Sahil Master's AI.",
+      "are you google ai": "Nope! I am Sahil Master's AI.",
       "do you belong to google": "Nope! I am Sahil Master's AI.",
       "are you from google": "Nope! I am Sahil Master's AI.",
     };
