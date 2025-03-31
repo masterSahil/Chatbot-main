@@ -17,7 +17,7 @@ Welcome to the Chatbot AI built using **React.js**! This project features a resp
 - **Hamburger Menu:** Accessible side menu to switch themes dynamically.
 
 ## 🖼️ Preview
-[![Chatbot Preview](https://your-preview-link.com)](https://chatbot-main-two.vercel.app/)
+[(https://your-preview-link.com)](https://chatbot-main-two.vercel.app/)
 
 ## 📥 GitHub Repository
 [[View on GitHub](https://github.com/masterSahil/chatbot-ai)](https://github.com/masterSahil/Chatbot-main.git)
