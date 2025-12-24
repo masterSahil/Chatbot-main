@@ -25,7 +25,7 @@ Welcome to the Chatbot AI built using **React.js**! This project features a resp
 ## 📸 QR Code
 Scan the QR code to directly navigate to the live preview of the project.
 
-![api qrserver](https://github.com/user-attachments/assets/f1f7a01f-04f1-49bc-ac53-a2b10750b80d)
+![api qrserver](./src/assets/QR.png)
 
 
 ## 🛠️ Installation
