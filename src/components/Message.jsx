@@ -77,7 +77,7 @@ const Message = ({ color }) => {
         parts: [{ text: msg.text }],
       }));
 
-      const API_KEY = "AIzaSyDFzhuzoCWMJBEhIM4RrrktuQ0o1OrYh9s"; 
+      const API_KEY = import.meta.env.VITE_GEMINI_API_KEY; 
       
       const response = await axios.post(
         "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent",
