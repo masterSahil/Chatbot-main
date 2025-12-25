@@ -351,3 +351,20 @@
 .msg-box *:last-child {
   margin-bottom: 0;
 }
+.copy-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.6;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  transition: opacity 0.2s;
+  margin-top: 5px;
+  margin-left: auto; /* Pushes button to right */
+}
+
+.copy-btn:hover {
+  opacity: 1;
+}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../css/msg.css";
 import axios from "axios";
-import ReactMarkdown from "react-markdown"; // <--- 1. IMPORT THIS
+import ReactMarkdown from "react-markdown";
 
 // Import theme-based images
 import botDefault from "../assets/robot.png";
@@ -19,7 +19,8 @@ const Message = ({ color }) => {
   const messagesEndRef = useRef(null);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
-  
+  const [copiedIndex, setCopiedIndex] = useState(null); // Track copied state
+
   const [botImg, setBotImg] = useState(botDefault);
   const [userImg, setUserImg] = useState(userDefault);
 
@@ -59,6 +60,13 @@ const Message = ({ color }) => {
     },
   };
 
+  const handleCopy = (text, index) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedIndex(index);
+      setTimeout(() => setCopiedIndex(null), 2000);
+    });
+  };
+
   async function getAnswer() {
     const trimmedInput = input.trim();
     if (!trimmedInput) return;
@@ -71,7 +79,6 @@ const Message = ({ color }) => {
     setMessages(newMessages);
 
     try {
-      // Create history for context
       const chatHistory = newMessages.map((msg) => ({
         role: msg.sender === "user" ? "user" : "model",
         parts: [{ text: msg.text }],
@@ -80,7 +87,7 @@ const Message = ({ color }) => {
       const API_KEY = import.meta.env.VITE_GEMINI_API_KEY; 
       
       const response = await axios.post(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent",
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
         { contents: chatHistory },
         {
           headers: {
@@ -92,7 +99,6 @@ const Message = ({ color }) => {
 
       let apiReply = response?.data?.candidates?.[0]?.content?.parts?.[0]?.text || "404! Data not Found";
 
-      // Identity Replacement
       apiReply = apiReply.replace(/trained by Google/gi, "trained by Sahil Master");
       apiReply = apiReply.replace(/created by Google/gi, "created by Sahil Master");
       apiReply = apiReply.replace(/I am a large language model, trained by Google./gi, "I am a large language model, trained by Sahil Master.");
@@ -143,17 +149,69 @@ const Message = ({ color }) => {
               alt={`${msg.sender}-img`} 
               className={`${msg.sender}-img`} 
             />
+            
             <div className="msg-box-container">
+              {/* Message Bubble (Text Only) */}
               <div 
                 className={msg.sender === "user" ? "user-msg msg-box" : "bot-msg msg-box"} 
-                style={{ boxShadow: themeStyles[color]?.boxShadow, borderColor: themeStyles[color]?.theme }}
+                style={{ 
+                    boxShadow: themeStyles[color]?.boxShadow, 
+                    borderColor: themeStyles[color]?.theme 
+                }}
               >
-                {/* 2. REPLACED PLAIN TEXT WITH REACT MARKDOWN */}
                 <ReactMarkdown>{msg.text}</ReactMarkdown>
               </div>
-              <div className={`message-time ${msg.sender === "user" ? "user-time" : "bot-time"}`}>
-                {msg.time}
+
+              {/* Footer: Time + Copy Button (Outside the box) */}
+              <div 
+                className="msg-footer" 
+                style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '8px', 
+                    marginTop: '5px',
+                    // Align footer right for user, left for bot
+                    justifyContent: msg.sender === 'user' ? 'flex-end' : 'flex-start',
+                    padding: '0 5px'
+                }}
+              >
+                <div className={`message-time ${msg.sender === "user" ? "user-time" : "bot-time"}`} style={{ margin: 0 }}>
+                    {msg.time}
+                </div>
+
+                <button 
+                    onClick={() => handleCopy(msg.text, index)}
+                    title="Copy to clipboard"
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      cursor: 'pointer',
+                      color: '#888', // Subtle color
+                      opacity: 0.7,
+                      padding: '2px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.opacity = 1; e.currentTarget.style.color = themeStyles[color]?.theme || '#fff'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.opacity = 0.7; e.currentTarget.style.color = '#888'; }}
+                  >
+                     {copiedIndex === index ? (
+                        // Check Icon
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                     ) : (
+                        // Copy Icon
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                     )}
+                  </button>
               </div>
+              {/* End Footer */}
+
             </div>
           </div>
         ))}
